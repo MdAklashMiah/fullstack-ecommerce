@@ -1,7 +1,9 @@
-"use client"
+"use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { Menu, Search, User, Heart, ShoppingCart, X } from "lucide-react";
+import Container from "./Container";
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -16,60 +18,69 @@ const Header = () => {
     "PAGES",
   ];
 
+  // Path generator
+  const getPath = (link) => (link === "HOME" ? "/" : `/${link.toLowerCase()}`);
+
   return (
-    <header className="w-full shadow-sm bg-white fixed top-0 left-0 z-50">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <header className="w-full shadow-sm bg-white fixed top-0 z-50">
+      <Container>
+        <div className="w-full mx-auto px-6 py-4 flex items-center justify-between">
+          {/* Logo */}
+          <Link href="/" className="flex items-center space-x-2 cursor-pointer">
+            <span className="text-2xl font-black">UQM</span>
+            <span className="w-3 h-3 bg-red-600 rounded-full"></span>
+          </Link>
 
-        {/* Logo */}
-        <div className="flex items-center space-x-2 cursor-pointer">
-          <span className="text-2xl font-black">UQM</span>
-          <span className="w-3 h-3 bg-red-600 rounded-full"></span>
-        </div>
-
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex space-x-10 text-sm font-medium text-gray-800">
-          {navLinks.map((link) => (
-            <button
-              key={link}
-              onClick={() => setActive(link)}
-              className={`
-                relative tracking-wide transition-all 
-                ${active === link ? "text-black" : "text-gray-700 hover:text-black"}
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex space-x-10 text-sm font-medium text-gray-800">
+            {navLinks.map((link) => (
+              <Link
+                key={link}
+                href={getPath(link)}
+                onClick={() => setActive(link)}
+                className={`
+                relative tracking-wide transition-all
+                ${
+                  active === link
+                    ? "text-black"
+                    : "text-gray-700 hover:text-black"
+                }
               `}
-            >
-              {link}
+              >
+                {link}
 
-              {/* Active Underline */}
-              {active === link && (
-                <span className="absolute left-0 -bottom-1 w-full h-[1.5px] bg-black rounded-full"></span>
-              )}
-            </button>
-          ))}
-        </nav>
+                {/* Active underline */}
+                {active === link && (
+                  <span className="absolute left-0 -bottom-1 w-full h-[1.5px] bg-black rounded-full"></span>
+                )}
+              </Link>
+            ))}
+          </nav>
 
-        {/* Icons */}
-        <div className="flex items-center space-x-6 text-gray-700">
-          <Search className="w-5 h-5 cursor-pointer hover:text-black" />
-          <User className="w-5 h-5 cursor-pointer hover:text-black" />
-          <Heart className="w-5 h-5 cursor-pointer hover:text-black" />
+          {/* Icons */}
+          <div className="flex items-center space-x-6 text-gray-700">
+            <Search className="w-5 h-5 cursor-pointer hover:text-black" />
+            <User className="w-5 h-5 cursor-pointer hover:text-black" />
+            <Heart className="w-5 h-5 cursor-pointer hover:text-black" />
 
-          {/* Cart */}
-          <div className="relative cursor-pointer">
-            <ShoppingCart className="w-5 h-5 hover:text-black" />
-            <span className="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs font-semibold w-4 h-4 flex items-center justify-center rounded-full">
-              3
-            </span>
-          </div>
+            {/* Cart */}
+            <div className="relative cursor-pointer">
+              <ShoppingCart className="w-5 h-5 hover:text-black" />
+              <span className="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs font-semibold w-4 h-4 flex items-center justify-center rounded-full">
+                3
+              </span>
+            </div>
 
-          {/* Mobile Menu Icon */}
-          <div className="md:hidden">
-            <Menu
-              className="w-6 h-6 cursor-pointer"
-              onClick={() => setMobileOpen(true)}
-            />
+            {/* Mobile Menu Icon */}
+            <div className="md:hidden">
+              <Menu
+                className="w-6 h-6 cursor-pointer"
+                onClick={() => setMobileOpen(true)}
+              />
+            </div>
           </div>
         </div>
-      </div>
+      </Container>
 
       {/* ---------------- MOBILE DRAWER MENU ---------------- */}
       <div
@@ -79,30 +90,31 @@ const Header = () => {
       >
         <div className="flex items-center justify-between px-5 py-4 border-b">
           <span className="text-xl font-semibold">MENU</span>
-          <X
-            className="cursor-pointer"
-            onClick={() => setMobileOpen(false)}
-          />
+          <X className="cursor-pointer" onClick={() => setMobileOpen(false)} />
         </div>
 
         {/* Mobile Menu Links */}
         <div className="flex flex-col px-6 mt-4 space-y-6 text-gray-800">
           {navLinks.map((link) => (
-            <button
+            <Link
               key={link}
+              href={getPath(link)}
               onClick={() => {
                 setActive(link);
                 setMobileOpen(false);
               }}
               className={`text-lg text-left transition ${
-                active === link ? "text-black font-semibold" : "hover:text-black"
+                active === link
+                  ? "text-black font-semibold"
+                  : "hover:text-black"
               }`}
             >
               {link}
-            </button>
+            </Link>
           ))}
         </div>
 
+        {/* Mobile Icons */}
         <div className="px-6 mt-10 border-t pt-6 flex space-x-6">
           <Search className="w-6 h-6 cursor-pointer hover:text-black" />
           <User className="w-6 h-6 cursor-pointer hover:text-black" />
@@ -123,5 +135,3 @@ const Header = () => {
 };
 
 export default Header;
-
-

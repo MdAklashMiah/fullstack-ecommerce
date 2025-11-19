@@ -1,13 +1,16 @@
 import Header from '@/components/common/Header'
+import Banner from '@/components/home/Banner'
+import TopCategories from '@/components/home/TopCategories'
+import TopCollection from '@/components/home/TopCollection'
 import React from 'react'
 
 const page = () => {
   return (
-    <>
-     <h1>
-      This is Home Page
-     </h1>
-    </>
+    <main>
+     <Banner/>
+     <TopCategories/>
+     <TopCollection/>
+    </main>
   )
 }
 
